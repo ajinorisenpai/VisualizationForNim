@@ -11,6 +11,7 @@
 	var color;	// ヒートマップの色を処理する関数を入れる変数
 	var maxValue;	// データの最大値
 	var dataSet = [ ];	// データセット
+	let svgary = [];
 	// データを読み込む
 	d3.text("out_100_100_mankara1.csv", function(error, plainText){
 		let data = d3.csv.parseRows(plainText);
@@ -120,7 +121,7 @@
             .append("rect")  // rect要素を追加
             .call(function(elements){
                 elements.each(function(d,i){
-                    rectlists.push()
+                    svgary.push(d3.select(this));
                 })
             })
             // .attr("class", "block")	// CSSクラスを追加
@@ -155,16 +156,15 @@
                 document.getElementById("headfix").innerHTML = d;
                 let cx = i % dataWidth;
                 let cy = parseInt(i / dataWidth);
-
                 for(let j=0;j<cx;j++){
-                    d3.selectAll(".x"+j).filter(".y"+cy).attr("style","fill:rgb(0,255,0)")
+                    svgary[cy*dataWidth+j].attr("style","fill:rgb(0,255,0)")
                         .style("fill-opacity","0.3");
-                    d3.selectAll(".x"+j).filter(".y"+parseInt(cy-cx+j)).attr("style","fill:rgb(0,255,0)")
+                    if(cy-cx+j >= 0) svgary[(cy-cx+j)*dataWidth+j].attr("style","fill:rgb(0,255,0)")
                         .style("fill-opacity","0.3");
 
                 }
                 for(let j=0;j<cy;j++){
-                    d3.selectAll(".y"+j).filter(".x"+cx).attr("style","fill:rgb(0,255,0)")
+                    svgary[j*dataWidth+cx].attr("style","fill:rgb(0,255,0)")
                         .style("fill-opacity","0.3");
                 }
                 // d3.selectAll(".x"+(i % dataWidth)).attr("style","fill:rgb(0,255,0)")
@@ -182,14 +182,14 @@
                 let cx = i % dataWidth;
                 let cy = parseInt(i / dataWidth);
                 for(let j=0;j<cx;j++){
-                    d3.selectAll(".x"+j).filter(".y"+cy).attr("style","fill:rgb(0,255,0)")
+                    svgary[cy*dataWidth+j].attr("style","fill:rgb(0,255,0)")
                         .style("fill-opacity","0.0");
-                    d3.selectAll(".x"+j).filter(".y"+parseInt(cy-cx+j)).attr("style","fill:rgb(0,255,0)")
+                    if(cy-cx+j >= 0) svgary[(cy-cx+j)*dataWidth+j].attr("style","fill:rgb(0,255,0)")
                         .style("fill-opacity","0.0");
 
                 }
                 for(let j=0;j<cy;j++){
-                    d3.selectAll(".y"+j).filter(".x"+cx).attr("style","fill:rgb(0,255,0)")
+                    svgary[j*dataWidth+cx].attr("style","fill:rgb(0,255,0)")
                         .style("fill-opacity","0.0");
                 }
             })
