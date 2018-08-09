@@ -3,13 +3,22 @@
 <head>
     <meta charset="utf-8">
     <title>Sample</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <!--<script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>-->
+    <!--<script src="https://d3js.org/d3.v5.min.js"></script>-->
+
     <style>
-        svg { width: 1800px; height: 1000px; border: 1px solid black; }
+        svg { width: 1800px; height: 1800px; border: 1px solid black; }
         .block { stroke: black; fill: none; }
     </style>
 </head>
 <body>
+<div id = "headfix">
+    ここに状態を表示
+    <!--<svg id="colmnfix"></svg>-->
+</div>
+<h1> </h1>
 <h1>ヒートマップ</h1>
 <button id = "add">サイズ拡大</button>
 <svg id="myGraph"></svg>
