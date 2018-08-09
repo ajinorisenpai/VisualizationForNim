@@ -11,11 +11,11 @@
 	var color;	// ヒートマップの色を処理する関数を入れる変数
 	var maxValue;	// データの最大値
 	var dataSet = [ ];	// データセット
+    let drawstring = true;
 	let svgary = [];
 	// データを読み込む
 	d3.text("out_100_100_mankara1.csv", function(error, plainText){
 		let data = d3.csv.parseRows(plainText);
-		console.log(data);
 		dataWidth = data[0].length;
 		for(let i=0;i<data.length;i++){
 		    for(let j=0;j<data[0].length;j++){
@@ -30,14 +30,7 @@
 		drawHeatMap();
 	});
     function drawColmnFix(){
-        ColmnFix = d3.select("#colmnfix")
-            .selectAll("rect");
-        ColmnFix.enter()
-            .append("rect")
-            .attr("class","block")
-            .attr("x",function(d,i){
-                return (i % dataWidth) * blockSize;
-            })
+
     }
 	// ヒートマップを表示する関数
 	function drawHeatMap(){
@@ -45,6 +38,10 @@
 		color = d3.interpolate("#ffffff", "#ffaaaa");	// 青色から黄色に補間
 
         maxValue = d3.max(dataSet);	// 最大値を求める
+
+        // colmnfix = d3.select(#colmnFix)
+        //     .selectAll("rect")
+        //     .data()
 
 		// ヒートマップの準備
 		heatMap = d3.select("#myGraph")
@@ -101,21 +98,23 @@
             // })
 
         // マップ内に文字を追加
-        heatMap.enter()
-            .append("text")	// text要素を追加
-            .attr("class", "name")	// CSSクラスを追加
-            .attr("x", function(d, i) { // X座標を設定
-                return (i % dataWidth) * blockSize + blockSize/2;
-            })
-            .attr("y", function(d, i) { // Y座標を設定
-                return Math.floor(i/dataWidth)*blockSize + blockSize/2;
-            })
-            .attr("text-anchor","middle")
-            .attr("fill","black")
-            .attr("dy", "0.35em")	// 表示位置を調整
-            .text(function(d, i) {  // 文字を表示する
-                return d;	// 領域内に表示する文字を返す
-            })
+        if(drawstring==true) {
+            heatMap.enter()
+                .append("text")	// text要素を追加
+                .attr("class", "name")	// CSSクラスを追加
+                .attr("x", function (d, i) { // X座標を設定
+                    return (i % dataWidth) * blockSize + blockSize / 2;
+                })
+                .attr("y", function (d, i) { // Y座標を設定
+                    return Math.floor(i / dataWidth) * blockSize + blockSize / 2;
+                })
+                .attr("text-anchor", "middle")
+                .attr("fill", "black")
+                .attr("dy", "0.35em")	// 表示位置を調整
+                .text(function (d, i) {  // 文字を表示する
+                    return d;	// 領域内に表示する文字を返す
+                })
+        }
 
         heatMap.enter()
             .append("rect")  // rect要素を追加
@@ -211,27 +210,35 @@
     //         dataSet[parseInt(coordinates[1]/blockSize)*dataWidth+parseInt(coordinates[0]/blockSize)];
     // } ) ;
     // ボタンにイベントを割り当て
-    document.getElementById("add").onclick = function(){
-        blockSize+=1;
-        // color = d3.interpolateHsl("black", "yellow");	// 青色から黄色に補間
-		heatMap.data(dataSet)
-        
-        .attr("x", function(d, i) { // X座標を設定
-				return (i % 300) * blockSize;
-			}) 
-			.attr("y", function(d, i) { // Y座標を設定
-				return Math.floor(i/300)*blockSize;
-			})
-			.attr("width", function(d, i) {	// 横幅を設定
-				return blockSize;
-			})
-			.attr("height", function(d, i) {	// 縦幅を設定
-				return blockSize;
-			})
-		.style("fill", function(d, i){	// 色を表示
-			return color(d/maxValue);
-		})
-    }
+    // document.getElementById("sizeUP").onclick = function(){
+    //     blockSize=6;
+    //     svgary = [];
+    //     drawstring = false;
+    //     console.log("AAA");
+    //     heatMap.remove();
+    //     drawHeatMap();
+    // }
+    $(function() {
+        $('#mode input[type=radio]').change( function() {
+            console.log(this.value);
+            if(this.value === "normal"){
+                blockSize=30;
+                drawstring = true;
+            }else if(this.value === "tiny"){
+                blockSize=6;
+                drawstring = false;
+            }else if(this.value === "huge"){
+                blockSize=60;
+                drawstring = true;
+            }
+
+            svgary = [];
+
+            console.log("AAA");
+            heatMap.remove();
+            drawHeatMap();
+        });
+    })
     // mouseover時の動作
 
 })();

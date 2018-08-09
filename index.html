@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <title>Sample</title>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <!--<script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://d3js.org/d3.v3.min.js"></script>
     <!--<script src="https://d3js.org/d3.v5.min.js"></script>-->
 
     <style>
@@ -14,14 +14,28 @@
     </style>
 </head>
 <body>
-<div id = "headfix">
-    ここに状態を表示
-    <!--<svg id="colmnfix"></svg>-->
+<div id="navbar-example2" class="navbar navbar-light bg-light fixed-top">
+    <a><div  id = "headfix">aaaa</div></a>
+    <div id="mode"  class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-secondary active">
+            <input type="radio" name="options" id="option1" autocomplete="off" value="normal" checked> Normal
+        </label>
+        <label class="btn btn-secondary">
+            <input type="radio" name="options" id="sizeUP" autocomplete="off" value="tiny"> Tiny
+        </label>
+        <label class="btn btn-secondary">
+            <input type="radio" name="options" id="option3" autocomplete="off" value="huge"> Huge
+        </label>
+    </div>
+
 </div>
-<h1> </h1>
-<h1>ヒートマップ</h1>
-<button id = "add">サイズ拡大</button>
+<h2>aaaaaa</h2>
+
 <svg id="myGraph"></svg>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src="js/sample.js"></script>
 </body>
 </html>

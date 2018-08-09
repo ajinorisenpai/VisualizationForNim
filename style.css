@@ -1,7 +1,11 @@
 #headfix{
-    position: fixed;
-    background: #666666;
-    top:0px;
-    width:100%;
-    height: 50px;
+    /*position: fixed;*/
+    /*background: #666666;*/
+    /*top:0px;*/
+    /*width:100%;*/
+    /*height:100px;*/
+}
+#myGraph{
+    position:relative;
+    top:75px;
 }
