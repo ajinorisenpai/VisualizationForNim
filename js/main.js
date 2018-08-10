@@ -328,7 +328,7 @@
 
     function _handleScroll() {
         scrolltox.style.left = -window.scrollX + "px";
-        scrolltoy.style.top = -window.scrollY +40+ "px";
+        scrolltoy.style.top = -window.scrollY +72+ "px";
     }
 
 })();
