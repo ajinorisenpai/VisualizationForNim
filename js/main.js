@@ -210,12 +210,17 @@
                 document.getElementById("nowcol").innerHTML = cy;
                 document.getElementById("nowrow").innerHTML = cx;
                 document.getElementById("nowgrundy").innerHTML = d;
+                let tmpdata = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
                 for(let j=0;j<cx;j++){
                     svgary[cy*dataWidth+j].attr("style","fill:rgb(0,255,0)")
                         .style("fill-opacity","0.3");
-                    if(cy-cx+j >= 0) svgary[(cy-cx+j)*dataWidth+j].attr("style","fill:rgb(0,255,0)")
-                        .style("fill-opacity","0.3");
+
+                    if(cy-cx+j >= 0) {
+                        svgary[(cy-cx+j)*dataWidth+j].attr("style","fill:rgb(0,255,0)")
+                            .style("fill-opacity","0.3");
+                        if(dataSet[(cy-cx+j)*dataWidth+j]<30) tmpdata[dataSet[(cy-cx+j)*dataWidth+j]]+=10;
+                    }
 
                 }
                 for(let j=0;j<cy;j++){
@@ -225,6 +230,10 @@
                 // d3.selectAll(".x"+(i % dataWidth)).attr("style","fill:rgb(0,255,0)")
                 //     .style("fill-opacity","0.3");
                 // d3.selectAll(".y"+cy).attr("style","fill:rgb(0,255,0)").style("fill-opacity","0.3");
+
+                minigraph.data(tmpdata)
+                    .attr("y",function (d) { return 50 - d; })
+                    .attr("height",function (d) { return d; })
             })
             .on("mouseout",function(d,i){
                 // d3.selectAll(".x"+(i % dataWidth)).style("fill-opacity","0.0")
@@ -248,6 +257,23 @@
                         .style("fill-opacity","0.0");
                 }
             })
+        //棒グラフ
+        // rectの追加
+        // var svg = svg.selectAll("rect"); rect→svgに変更→違いがよくわからない
+        let tmpdata = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10];
+        var minigraph = d3.select("#minigraph")
+            .selectAll("rect")
+            .data(tmpdata);
+        minigraph.enter()
+            .append("rect")
+            // 棒のxy座標　iはdataのindex
+            .attr("x", function (d, i) { return i * 15; })
+            .attr("y", function (d) { return 50 - d; })
+            // 1個の棒の幅　x座標との差分がMarginとなる
+            .attr("width", 10)
+            // 1個の棒の高さ
+            .attr("height", function (d) { return d; })
+            .style("fill", "#F00");
 
     }
     // // d3イベント内でないと機能しない

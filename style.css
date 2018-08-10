@@ -15,7 +15,11 @@
 z-index: 3;}
 #colfix { margin-top:0px; width: 30px; height: 3030px;  position: fixed;
     z-index: 2;}
-
+#minigraph{
+    height:50px;
+    width:500px;
+    background-color:white;
+}
 #top-navbar{
     color: white;
 }
