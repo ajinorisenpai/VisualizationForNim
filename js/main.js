@@ -210,8 +210,8 @@
                 document.getElementById("nowcol").innerHTML = cy;
                 document.getElementById("nowrow").innerHTML = cx;
                 document.getElementById("nowgrundy").innerHTML = d;
-                let tmpdata = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-
+                let tmpdata = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                tmpdata[dataSet[cy*dataWidth+cx]]+=10;
                 for(let j=0;j<cx;j++){
                     svgary[cy*dataWidth+j].attr("style","fill:rgb(0,255,0)")
                         .style("fill-opacity","0.3");
@@ -220,6 +220,7 @@
                         svgary[(cy-cx+j)*dataWidth+j].attr("style","fill:rgb(0,255,0)")
                             .style("fill-opacity","0.3");
                         if(dataSet[(cy-cx+j)*dataWidth+j]<30) tmpdata[dataSet[(cy-cx+j)*dataWidth+j]]+=10;
+                        else tmpdata[30]+=10;
                     }
 
                 }
@@ -327,7 +328,7 @@
 
     function _handleScroll() {
         scrolltox.style.left = -window.scrollX + "px";
-        scrolltoy.style.top = -window.scrollY +46+ "px";
+        scrolltoy.style.top = -window.scrollY +40+ "px";
     }
 
 })();
