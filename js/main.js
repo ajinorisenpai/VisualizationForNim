@@ -22,16 +22,8 @@
                 dataSet.push(data[i][j]);
             }
         }
-        // var temp = plainText.split(",");	// カンマで分割し代入
-        // // dataWidth = temp.length;
-		// for(var i=0; i<temp.length; i++){
-		// 	dataSet[i] = parseInt(temp[i]);	// 正数にして代入
-		// }
 		drawHeatMap();
 	});
-    function drawColmnFix(){
-
-    }
 	// ヒートマップを表示する関数
 	function drawHeatMap(){
 		// ヒートマップに表示するカラーを自動計算
@@ -39,10 +31,70 @@
 
         maxValue = d3.max(dataSet);	// 最大値を求める
 
-        // colmnfix = d3.select(#colmnFix)
-        //     .selectAll("rect")
-        //     .data()
-
+        //上の固定カラムを作成
+        let memory_data = [];
+        for(let i=0;i<dataWidth;i++) {
+            memory_data.push(i);
+        }
+        colmnfix = d3.select("#colmnfix")
+            .selectAll("rect")
+            .data(memory_data)
+        colmnfix.enter()
+            .append("rect")
+            .attr("class","block")
+            .attr("x",function(d,i){
+                return (i%dataWidth) * blockSize;
+            })
+            .attr("y",0)
+            .attr("width",blockSize)
+            .attr("height",blockSize)
+            .style("fill",function(d,i){
+                if(i%2===0) return "#cdcdcd";
+                else return "#eeeeee";
+            })
+            .attr("stroke-width",0);
+        colmnfix.enter()
+            .append("text")
+            .attr("fill", "black")
+            .attr("text-anchor", "middle")
+            .attr("dy", "1.2em")	// 表示位置を調整
+            .text(function(d,i){
+                return i;
+            })
+            .attr("x",function(d,i){
+                return (i%dataWidth) * blockSize+blockSize/2;
+            })
+            .attr("y",0)
+        //左の固定カラムを作成
+        rowfix = d3.select("#rowfix")
+            .selectAll("rect")
+            .data(memory_data)
+        rowfix.enter()
+            .append("rect")
+            .attr("class","block")
+            .attr("y",function(d,i){
+                return (i%dataWidth) * blockSize;
+            })
+            .attr("x",0)
+            .attr("width",blockSize)
+            .attr("height",blockSize)
+            .style("fill",function(d,i){
+                if(i%2===0) return "#cdcdcd";
+                else return "#eeeeee";
+            })
+            .attr("stroke-width",0);
+        rowfix.enter()
+            .append("text")
+            .attr("fill", "black")
+            .attr("text-anchor", "middle")
+            .attr("dy", "1.2em")	// 表示位置を調整
+            .text(function(d,i){
+                return i;
+            })
+            .attr("y",function(d,i){
+                return (i%dataWidth) * blockSize;
+            })
+            .attr("x",blockSize/2)
 		// ヒートマップの準備
 		heatMap = d3.select("#myGraph")
 			.selectAll("rect")   // rect要素を指定
@@ -233,13 +285,20 @@
             }
 
             svgary = [];
-
-            console.log("AAA");
             heatMap.remove();
             drawHeatMap();
         });
     })
     // mouseover時の動作
+
+    var scrolltox = document.getElementById("colmnfix");
+    var scrolltoy = document.getElementById("rowfix");
+    window.addEventListener('scroll', _handleScroll, false);
+
+    function _handleScroll() {
+        scrolltox.style.left = -window.scrollX + "px";
+        scrolltoy.style.top = -window.scrollY + 47 + "px";
+    }
 
 })();
 

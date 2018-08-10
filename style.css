@@ -7,5 +7,11 @@
 }
 #myGraph{
     position:relative;
-    top:75px;
-}
+    margin-top:38px;
+    margin-left:30px;
+    width: 3000px; height: 3000px;  z-index: 1 ;}
+.block { stroke: black; fill: none; }
+#colmnfix { margin-top:8px; width: 3030px; height: 30px;  position: fixed;
+z-index: 3;}
+#rowfix { margin-top:8px; width: 30px; height: 3030px;  position: fixed;
+    z-index: 2;}
