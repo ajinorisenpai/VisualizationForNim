@@ -1,0 +1,31 @@
+#headfix{
+    /*position: fixed;*/
+    /*background: #666666;*/
+    /*top:0px;*/
+    /*width:100%;*/
+    /*height:100px;*/
+}
+#myGraph{
+    position:relative;
+    margin-top:30px;
+    margin-left:30px;
+    width: 3000px; height: 3000px;  z-index: 1 ;}
+.block { stroke: black; fill: none; }
+#rowfix { margin-top:0px; width: 3030px; height: 30px;  position: fixed;
+z-index: 3;}
+#colfix { margin-top:72px; width: 30px; height: 3030px;  position: fixed;
+    z-index: 2;}
+
+#top-navbar{
+    color: white;
+}
+#top-navbar .nowinfo{
+    color:black;
+    font-size:32px;
+    margin-left:10px;
+    margin-right:30px;
+    width:60px;
+    height:50px;
+    background-color: #eeeeee;
+    text-align: center;
+}

@@ -36,10 +36,10 @@
         for(let i=0;i<dataWidth;i++) {
             memory_data.push(i);
         }
-        colmnfix = d3.select("#colmnfix")
+        rowfix = d3.select("#rowfix")
             .selectAll("rect")
             .data(memory_data)
-        colmnfix.enter()
+        rowfix.enter()
             .append("rect")
             .attr("class","block")
             .attr("x",function(d,i){
@@ -53,7 +53,7 @@
                 else return "#eeeeee";
             })
             .attr("stroke-width",0);
-        colmnfix.enter()
+        rowfix.enter()
             .append("text")
             .attr("fill", "black")
             .attr("text-anchor", "middle")
@@ -66,10 +66,10 @@
             })
             .attr("y",0)
         //左の固定カラムを作成
-        rowfix = d3.select("#rowfix")
+        colfix = d3.select("#colfix")
             .selectAll("rect")
             .data(memory_data)
-        rowfix.enter()
+        colfix.enter()
             .append("rect")
             .attr("class","block")
             .attr("y",function(d,i){
@@ -83,7 +83,7 @@
                 else return "#eeeeee";
             })
             .attr("stroke-width",0);
-        rowfix.enter()
+        colfix.enter()
             .append("text")
             .attr("fill", "black")
             .attr("text-anchor", "middle")
@@ -204,9 +204,12 @@
             .attr("stroke-width",0)
             .on("mouseover", function(d,i){
                 // console.log("aaa");
-                document.getElementById("headfix").innerHTML = d;
                 let cx = i % dataWidth;
                 let cy = parseInt(i / dataWidth);
+                document.getElementById("nowcol").innerHTML = cy;
+                document.getElementById("nowrow").innerHTML = cx;
+                document.getElementById("nowgrundy").innerHTML = d;
+
                 for(let j=0;j<cx;j++){
                     svgary[cy*dataWidth+j].attr("style","fill:rgb(0,255,0)")
                         .style("fill-opacity","0.3");
@@ -291,13 +294,13 @@
     })
     // mouseover時の動作
 
-    var scrolltox = document.getElementById("colmnfix");
-    var scrolltoy = document.getElementById("rowfix");
+    var scrolltox = document.getElementById("rowfix");
+    var scrolltoy = document.getElementById("colfix");
     window.addEventListener('scroll', _handleScroll, false);
 
     function _handleScroll() {
         scrolltox.style.left = -window.scrollX + "px";
-        scrolltoy.style.top = -window.scrollY + 47 + "px";
+        scrolltoy.style.top = -window.scrollY + "px";
     }
 
 })();
