@@ -13,7 +13,7 @@
 .block { stroke: black; fill: none; }
 #rowfix { margin-top:0px; width: 3030px; height: 30px;  position: fixed;
 z-index: 3;}
-#colfix { margin-top:72px; width: 30px; height: 3030px;  position: fixed;
+#colfix { margin-top:0px; width: 30px; height: 3030px;  position: fixed;
     z-index: 2;}
 
 #top-navbar{

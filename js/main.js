@@ -59,7 +59,8 @@
             .attr("text-anchor", "middle")
             .attr("dy", "1.2em")	// 表示位置を調整
             .text(function(d,i){
-                return i;
+                if(i===0) return "";
+                return i-1;
             })
             .attr("x",function(d,i){
                 return (i%dataWidth) * blockSize+blockSize/2;
@@ -89,7 +90,7 @@
             .attr("text-anchor", "middle")
             .attr("dy", "1.2em")	// 表示位置を調整
             .text(function(d,i){
-                return i;
+                return i-1;
             })
             .attr("y",function(d,i){
                 return (i%dataWidth) * blockSize;
