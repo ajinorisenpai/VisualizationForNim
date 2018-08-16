@@ -266,6 +266,26 @@
                     tmpdata[parseInt(dataSet[ty*dataWidth+tx],10)]+=10;
                 }
             })
+            .on("mousedown",function(d,i){
+                let cx = i % dataWidth;
+                let cy = parseInt(i / dataWidth);
+                for(let j=0;j<=dataWidth*dataWidth;j++){
+                    if(dataSet[j]===dataSet[cy*dataWidth+cx]){
+                        svgary[j].attr("style","fill:rgb(250,250,0)")
+                            .style("fill-opacity","0.4");
+                    }
+                }
+            })
+            .on("mouseup",function(d,i){
+                let cx = i % dataWidth;
+                let cy = parseInt(i / dataWidth);
+                for(let j=0;j<=dataWidth*dataWidth;j++){
+                    if(dataSet[j]===dataSet[cy*dataWidth+cx]){
+                        svgary[j].attr("style","fill:rgb(200,100,200)")
+                            .style("fill-opacity","0.0");
+                    }
+                }
+            });
         //棒グラフ
         // rectの追加
         // var svg = svg.selectAll("rect"); rect→svgに変更→違いがよくわからない
