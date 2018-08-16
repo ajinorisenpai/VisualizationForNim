@@ -7,14 +7,14 @@
     svgWidth = parseFloat(svgWidth);	// 値は単位付きなので単位を削除する
     svgHeight = parseFloat(svgHeight);	// 値は単位付きなので単位を削除する
     var blockSize = 30;	// ブロックのサイズ
-    var heatMap;	// ヒートマップオブジェクトを格納する変数
     var color;	// ヒートマップの色を処理する関数を入れる変数
+    var heatMap;	// ヒートマップオブジェクトを格納する変数
     var maxValue;	// データの最大値
     var dataSet = [ ];	// データセット
     let drawstring = true;
     let svgary = [];
     // データを読み込む
-    d3.text("mankara.csv", function(error, plainText){
+    d3.text("mankara_200.csv", function(error, plainText){
         let data = d3.csv.parseRows(plainText);
         dataWidth = data[0].length;
         for(let i=0;i<data.length;i++){
@@ -199,7 +199,7 @@
                 if(d == 0) return "#9599ff";
                 if(d==1) return "#e1e9ff"
                 // if(d > 10) return color(1);
-                return color(Math.log10(d/5));
+                return color(d/5);
             })
             .style("fill-opacity","0.0")
             .attr("stroke-width",0)
@@ -210,25 +210,29 @@
                 document.getElementById("nowcol").innerHTML = cy;
                 document.getElementById("nowrow").innerHTML = cx;
                 document.getElementById("nowgrundy").innerHTML = d;
-                let tmpdata = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-                tmpdata[dataSet[cy*dataWidth+cx]]+=10;
+                let tmpdata = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10];
+                // tmpdata[dataSet[cy*dataWidth+cx]]+=10;
 
                 //カラーリングxからとる場合
-                for(let j=1;j<cx;j++){
-                    let ty = ((j+2)/4|0)
-                    let tx = ((j)/4|0)
+                for(let j=1;j<=cx;j++){
+                    let ty = (cy+((j+2)/4|0));
+                    let tx = (cx-j+(j/4|0));
                     svgary[ty*dataWidth+tx].attr("style","fill:rgb(0,255,0)")
                         .style("fill-opacity","0.3");
-                    svgary[tx*dataWidth+ty].attr("style","fill:rgb(0,0,255)")
-                        .style("fill-opacity","0.3");
+
                     tmpdata[dataSet[ty*dataWidth+tx]]+=10;
 
                 }
-                // d3.selectAll(".x"+(i % dataWidth)).attr("style","fill:rgb(0,255,0)")
-                //     .style("fill-opacity","0.3");
-                // d3.selectAll(".y"+cy).attr("style","fill:rgb(0,255,0)").style("fill-opacity","0.3");
-
-                minigraph.data(tmpdata)
+                //yからとる場合
+                for(let j=1;j<=cy;j++) {
+                    let tx = (cx+((j+2)/4|0));
+                    let ty = (cy-j+(j/4|0));
+                    svgary[ty*dataWidth+tx].attr("style","fill:rgb(255,0,0)")
+                        .style("fill-opacity","0.3");
+                    tmpdata[dataSet[ty*dataWidth+tx]]+=10;
+                }
+                console.log(tmpdata)
+                 minigraph.data(tmpdata)
                     .attr("y",function (d) { return 50 - d; })
                     .attr("height",function (d) { return d; })
             })
@@ -242,15 +246,24 @@
                 // });
                 let cx = i % dataWidth;
                 let cy = parseInt(i / dataWidth);
-                for(let j=1;j<cx;j++){
-                    let ty = ((j+2)/4|0);
-                    let tx = ((j)/4|0);
-                    svgary[ty*dataWidth+tx]
+                //カラーリングxからとる場合
+                //カラーリングxからとる場合
+                for(let j=1;j<=cx;j++){
+                    let ty = (cy+((j+2)/4|0));
+                    let tx = (cx-j+(j/4|0));
+                    svgary[ty*dataWidth+tx].attr("style","fill:rgb(0,255,0)")
                         .style("fill-opacity","0.0");
-                    svgary[tx*dataWidth+ty]
-                        .style("fill-opacity","0.0");
-                    tmpdata[dataSet[ty*dataWidth+tx]]+=10;
 
+                    tmpdata[parseInt(dataSet[ty*dataWidth+tx],10)]+=10;
+
+                }
+                //yからとる場合
+                for(let j=1;j<=cy;j++) {
+                    let tx = (cx+((j+2)/4|0));
+                    let ty = (cy-j+(j/4|0));
+                    svgary[ty*dataWidth+tx].attr("style","fill:rgb(255,0,0)")
+                        .style("fill-opacity","0.0");
+                    tmpdata[parseInt(dataSet[ty*dataWidth+tx],10)]+=10;
                 }
             })
         //棒グラフ
@@ -299,8 +312,8 @@
     $(function() {
         $('#mode input[type=radio]').change( function() {
             console.log(this.value);
+            blockSize=30;
             if(this.value === "normal"){
-                blockSize=30;
                 drawstring = true;
             }else if(this.value === "tiny"){
                 blockSize=6;
