@@ -1,33 +1,33 @@
 (function(){
-    // SVG要素の幅と高さを求める
+	// SVG要素の幅と高さを求める
     var dataWidth;
-    var svgEle = document.getElementById("myGraph");
-    var svgWidth = window.getComputedStyle(svgEle, null).getPropertyValue("width");
-    var svgHeight = window.getComputedStyle(svgEle, null).getPropertyValue("height");
-    svgWidth = parseFloat(svgWidth);	// 値は単位付きなので単位を削除する
-    svgHeight = parseFloat(svgHeight);	// 値は単位付きなので単位を削除する
-    var blockSize = 30;	// ブロックのサイズ
-    var heatMap;	// ヒートマップオブジェクトを格納する変数
-    var color;	// ヒートマップの色を処理する関数を入れる変数
-    var maxValue;	// データの最大値
-    var dataSet = [ ];	// データセット
+	var svgEle = document.getElementById("myGraph");
+	var svgWidth = window.getComputedStyle(svgEle, null).getPropertyValue("width");
+	var svgHeight = window.getComputedStyle(svgEle, null).getPropertyValue("height");
+	svgWidth = parseFloat(svgWidth);	// 値は単位付きなので単位を削除する
+	svgHeight = parseFloat(svgHeight);	// 値は単位付きなので単位を削除する
+	var blockSize = 30;	// ブロックのサイズ
+	var heatMap;	// ヒートマップオブジェクトを格納する変数
+	var color;	// ヒートマップの色を処理する関数を入れる変数
+	var maxValue;	// データの最大値
+	var dataSet = [ ];	// データセット
     let drawstring = true;
-    let svgary = [];
-    // データを読み込む
-    d3.text("mankara.csv", function(error, plainText){
-        let data = d3.csv.parseRows(plainText);
-        dataWidth = data[0].length;
-        for(let i=0;i<data.length;i++){
-            for(let j=0;j<data[0].length;j++){
+	let svgary = [];
+	// データを読み込む
+	d3.text("mankara.csv", function(error, plainText){
+		let data = d3.csv.parseRows(plainText);
+		dataWidth = data[0].length;
+		for(let i=0;i<data.length;i++){
+		    for(let j=0;j<data[0].length;j++){
                 dataSet.push(data[i][j]);
             }
         }
-        drawHeatMap();
-    });
-    // ヒートマップを表示する関数
-    function drawHeatMap(){
-        // ヒートマップに表示するカラーを自動計算
-        color = d3.interpolate("#ffffff", "#ffaaaa");	// 青色から黄色に補間
+		drawHeatMap();
+	});
+	// ヒートマップを表示する関数
+	function drawHeatMap(){
+		// ヒートマップに表示するカラーを自動計算
+		color = d3.interpolate("#ffffff", "#ffaaaa");	// 青色から黄色に補間
 
         maxValue = d3.max(dataSet);	// 最大値を求める
 
@@ -96,59 +96,59 @@
                 return (i%dataWidth) * blockSize;
             })
             .attr("x",blockSize/2)
-        // ヒートマップの準備
-        heatMap = d3.select("#myGraph")
-            .selectAll("rect")   // rect要素を指定
-            .data(dataSet)    // データを設定
-        // ヒートマップを表示
-        heatMap.enter()
-            .append("rect")  // rect要素を追加
-            // .attr("class", "block")	// CSSクラスを追加
+		// ヒートマップの準備
+		heatMap = d3.select("#myGraph")
+			.selectAll("rect")   // rect要素を指定
+			.data(dataSet)    // データを設定
+		// ヒートマップを表示
+		heatMap.enter()
+			.append("rect")  // rect要素を追加
+			// .attr("class", "block")	// CSSクラスを追加
             // .attr("class",function(d, i) { // X座標を設定
-            //    return "block x" + (i % dataWidth) + " y" + parseInt(i / dataWidth);
+             //    return "block x" + (i % dataWidth) + " y" + parseInt(i / dataWidth);
             // })
             // .attr("class",function(d, i) { // X座標を設定
             //     return "y" + (i / dataWidth);
             // })
-            .attr("x", function(d, i) { // X座標を設定
-                return (i % dataWidth) * blockSize;
-            })
-            .attr("y", function(d, i) { // Y座標を設定
-                return Math.floor(i/dataWidth)*blockSize;
-            })
-            .attr("width", function(d, i) {	// 横幅を設定
-                return blockSize;
-            })
-            .attr("height", function(d, i) {	// 縦幅を設定
-                return blockSize;
-            })
-            .style("fill", function(d, i){	// 色を表示
-                if(d == 0) return "#9599ff";
-                if(d==1) return "#e1e9ff"
-                // if(d > 10) return color(1);
-                return color(Math.log10(d/5));
-            })
+			.attr("x", function(d, i) { // X座標を設定
+				return (i % dataWidth) * blockSize;
+			})
+			.attr("y", function(d, i) { // Y座標を設定
+				return Math.floor(i/dataWidth)*blockSize;
+			})
+			.attr("width", function(d, i) {	// 横幅を設定
+				return blockSize;
+			})
+			.attr("height", function(d, i) {	// 縦幅を設定
+				return blockSize;
+			})
+			.style("fill", function(d, i){	// 色を表示
+			    if(d == 0) return "#9599ff";
+			    if(d==1) return "#e1e9ff"
+			    // if(d > 10) return color(1);
+				return color(Math.log10(d/5));
+			})
             .attr("stroke-width",0)
-        // .on("mouseover", function(d,i){
-        //     // console.log("aaa");
-        //      document.getElementById("headfix").innerHTML = d;
-        //      d3.selectAll(".x"+(i % dataWidth)).attr("style","fill:rgb(0,255,0)");
-        //      d3.selectAll(".y"+parseInt(i / dataWidth)).attr("style","fill:rgb(0,255,0)");
-        // })
-        // .on("mouseout",function(d,i){
-        //     d3.selectAll(".x"+(i % dataWidth)).style("fill",function(d, i){	// 色を表示
-        //         if(d == 0) return "#9599ff";
-        //         if(d==1) return "#e1e9ff"
-        //         // if(d > 10) return color(1);
-        //         return color(Math.log10(d/5));
-        //     });
-        //     d3.selectAll(".y"+parseInt(i / dataWidth)).style("fill",function(d, i){	// 色を表示
-        //         if(d == 0) return "#9599ff";
-        //         if(d==1) return "#e1e9ff"
-        //         // if(d > 10) return color(1);
-        //         return color(Math.log10(d/5));
-        //     });
-        // })
+            // .on("mouseover", function(d,i){
+            //     // console.log("aaa");
+            //      document.getElementById("headfix").innerHTML = d;
+            //      d3.selectAll(".x"+(i % dataWidth)).attr("style","fill:rgb(0,255,0)");
+            //      d3.selectAll(".y"+parseInt(i / dataWidth)).attr("style","fill:rgb(0,255,0)");
+            // })
+            // .on("mouseout",function(d,i){
+            //     d3.selectAll(".x"+(i % dataWidth)).style("fill",function(d, i){	// 色を表示
+            //         if(d == 0) return "#9599ff";
+            //         if(d==1) return "#e1e9ff"
+            //         // if(d > 10) return color(1);
+            //         return color(Math.log10(d/5));
+            //     });
+            //     d3.selectAll(".y"+parseInt(i / dataWidth)).style("fill",function(d, i){	// 色を表示
+            //         if(d == 0) return "#9599ff";
+            //         if(d==1) return "#e1e9ff"
+            //         // if(d > 10) return color(1);
+            //         return color(Math.log10(d/5));
+            //     });
+            // })
 
         // マップ内に文字を追加
         if(drawstring==true) {
@@ -196,11 +196,11 @@
                 return blockSize;
             })
             .style("fill", function(d, i){	// 色を表示
-                if(d == 0) return "#9599ff";
-                if(d==1) return "#e1e9ff"
-                // if(d > 10) return color(1);
-                return color(Math.log10(d/5));
-            })
+                	    if(d == 0) return "#9599ff";
+                	    if(d==1) return "#e1e9ff"
+                	    // if(d > 10) return color(1);
+                		return color(Math.log10(d/5));
+                	})
             .style("fill-opacity","0.0")
             .attr("stroke-width",0)
             .on("mouseover", function(d,i){
@@ -212,17 +212,21 @@
                 document.getElementById("nowgrundy").innerHTML = d;
                 let tmpdata = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                 tmpdata[dataSet[cy*dataWidth+cx]]+=10;
-
-                //カラーリングxからとる場合
-                for(let j=1;j<cx;j++){
-                    let ty = ((j+2)/4|0)
-                    let tx = ((j)/4|0)
-                    svgary[ty*dataWidth+tx].attr("style","fill:rgb(0,255,0)")
+                for(let j=0;j<cx;j++){
+                    svgary[cy*dataWidth+j].attr("style","fill:rgb(0,255,0)")
                         .style("fill-opacity","0.3");
-                    svgary[tx*dataWidth+ty].attr("style","fill:rgb(0,0,255)")
-                        .style("fill-opacity","0.3");
-                    tmpdata[dataSet[ty*dataWidth+tx]]+=10;
 
+                    if(cy-cx+j >= 0) {
+                        svgary[(cy-cx+j)*dataWidth+j].attr("style","fill:rgb(0,255,0)")
+                            .style("fill-opacity","0.3");
+                        if(dataSet[(cy-cx+j)*dataWidth+j]<30) tmpdata[dataSet[(cy-cx+j)*dataWidth+j]]+=10;
+                        else tmpdata[30]+=10;
+                    }
+
+                }
+                for(let j=0;j<cy;j++){
+                    svgary[j*dataWidth+cx].attr("style","fill:rgb(0,255,0)")
+                        .style("fill-opacity","0.3");
                 }
                 // d3.selectAll(".x"+(i % dataWidth)).attr("style","fill:rgb(0,255,0)")
                 //     .style("fill-opacity","0.3");
@@ -242,15 +246,16 @@
                 // });
                 let cx = i % dataWidth;
                 let cy = parseInt(i / dataWidth);
-                for(let j=1;j<cx;j++){
-                    let ty = ((j+2)/4|0);
-                    let tx = ((j)/4|0);
-                    svgary[ty*dataWidth+tx]
+                for(let j=0;j<cx;j++){
+                    svgary[cy*dataWidth+j].attr("style","fill:rgb(0,255,0)")
                         .style("fill-opacity","0.0");
-                    svgary[tx*dataWidth+ty]
+                    if(cy-cx+j >= 0) svgary[(cy-cx+j)*dataWidth+j].attr("style","fill:rgb(0,255,0)")
                         .style("fill-opacity","0.0");
-                    tmpdata[dataSet[ty*dataWidth+tx]]+=10;
 
+                }
+                for(let j=0;j<cy;j++){
+                    svgary[j*dataWidth+cx].attr("style","fill:rgb(0,255,0)")
+                        .style("fill-opacity","0.0");
                 }
             })
         //棒グラフ
