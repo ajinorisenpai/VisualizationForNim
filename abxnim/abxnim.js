@@ -14,7 +14,7 @@
     let drawstring = true;
     let svgary = [];
     // データを読み込む
-    d3.text("abxnim.csv", function(error, plainText){
+    d3.text("abxnim/abxnim.csv", function(error, plainText){
         let data = d3.csv.parseRows(plainText);
         dataWidth = data[0].length;
         for(let i=0;i<data.length;i++){
