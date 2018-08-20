@@ -6,7 +6,7 @@
     var svgHeight = window.getComputedStyle(svgEle, null).getPropertyValue("height");
     svgWidth = parseFloat(svgWidth);	// 値は単位付きなので単位を削除する
     svgHeight = parseFloat(svgHeight);	// 値は単位付きなので単位を削除する
-    var blockSize = 20;	// ブロックのサイズ
+    var blockSize = 30;	// ブロックのサイズ
     var color;	// ヒートマップの色を処理する関数を入れる変数
     var heatMap;	// ヒートマップオブジェクトを格納する変数
     var maxValue;	// データの最大値
